@@ -16,3 +16,6 @@ class RomanNumeralConverter
     total += 'I' * number
   end
 end
+
+r = RomanNumeralConverter.new
+puts r.convert(ARGV.pop.to_i)
