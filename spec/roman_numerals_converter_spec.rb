@@ -1,4 +1,4 @@
-require 'roman_numeral_converter'
+require 'spec_helper'
 
 RSpec.describe RomanNumeralConverter, '#convert' do
   let(:converter) { RomanNumeralConverter.new }
@@ -88,7 +88,6 @@ RSpec.describe RomanNumeralConverter, '#convert' do
       expect(converter.convert_decimal(3900)).to eq 'MMMCM'
     end
 
-    # test the return condition lines
     it 'calculates the roman number for 51' do
       expect(converter.convert_decimal(51)).to eq 'LI'
     end
