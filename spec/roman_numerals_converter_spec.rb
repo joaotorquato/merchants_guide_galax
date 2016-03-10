@@ -87,4 +87,13 @@ RSpec.describe RomanNumeralConverter, '#convert' do
     expect(converter.convert(3900)).to eq 'MMMCM'
   end
 
+  # test the return condition lines
+  it 'calculates the roman number for 51' do
+    expect(converter.convert(51)).to eq 'LI'
+  end
+
+  it 'calculates the roman number for 15' do
+    expect(converter.convert(15)).to eq 'XV'
+  end
+
 end

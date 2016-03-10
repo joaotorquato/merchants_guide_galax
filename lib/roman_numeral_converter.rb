@@ -25,7 +25,10 @@ class RomanNumeralConverter
       total += 'XC'
       number -= 90
     end
-    return 'L' if number == 50
+    if number >= 50
+      total += 'L'
+      number -= 50
+    end
     if number >= 40
       total += 'XL'
       number -= 40
@@ -38,8 +41,14 @@ class RomanNumeralConverter
       total += 'IX'
       number -= 9
     end
-    return 'V' if number == 5
-    return 'IV' if number == 4
+    if number >= 5
+      total += 'V'
+      number -= 5
+    end
+    if number >= 4
+      total += 'IV'
+      number -= 4
+    end
     total += 'I' * number
   end
 end
