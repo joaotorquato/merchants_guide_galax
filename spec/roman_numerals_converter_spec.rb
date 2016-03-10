@@ -51,4 +51,40 @@ RSpec.describe RomanNumeralConverter, '#convert' do
     expect(converter.convert(50)).to eq 'L'
   end
 
+  it 'calculates the roman number for 90' do
+    expect(converter.convert(90)).to eq 'XC'
+  end
+
+  it 'calculates the roman number for 100' do
+    expect(converter.convert(100)).to eq 'C'
+  end
+
+  it 'calculates the roman number for 200' do
+    expect(converter.convert(200)).to eq 'CC'
+  end
+
+  it 'calculates the roman number for 390' do
+    expect(converter.convert(390)).to eq 'CCCXC'
+  end
+
+  it 'calculates the roman number for 400' do
+    expect(converter.convert(400)).to eq 'CD'
+  end
+
+  it 'calculates the roman number for 500' do
+    expect(converter.convert(500)).to eq 'D'
+  end
+
+  it 'calculates the roman number for 1000' do
+    expect(converter.convert(1000)).to eq 'M'
+  end
+
+  it 'calculates the roman number for 2000' do
+    expect(converter.convert(2000)).to eq 'MM'
+  end
+
+  it 'calculates the roman number for 3900' do
+    expect(converter.convert(3900)).to eq 'MMMCM'
+  end
+
 end
