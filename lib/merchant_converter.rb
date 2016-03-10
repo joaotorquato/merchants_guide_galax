@@ -1,3 +1,5 @@
+require 'roman_numeral_converter'
+
 class MerchantConverter
   def initialize
     @roman_numeral_converter = RomanNumeralConverter.new
@@ -7,9 +9,9 @@ class MerchantConverter
 
   def convert(file_path)
     @file = File.open(file_path)
-    text = @file.read.chomp.split("\n")
+    text = @file.read.chomp.strip.split("\n")
     text.each do |phrase|
-      part_phrase = phrase.split('is')
+      part_phrase = phrase.split(' is ')
       unless part_phrase[1].nil?
         second_part_phrase = part_phrase[1].strip
         # atualiza o mapa como os novos valores
@@ -19,12 +21,24 @@ class MerchantConverter
         # calcula o valor dos itens não conhecidos
         elsif second_part_phrase.include? 'Credits'
           part_phrase[0].split(" ").each do |word|
-            if !roman_number?(word) do
+            if @roman_numeral_converter.map.invert[word].nil? 
               new_word = word
-              t = @roman_numeral_converter.convert_roman(part_phrase[0].sub!(word,"").split(" "))
+              romans = part_phrase[0].sub!(word,"").split(" ")
+              t = @roman_numeral_converter.convert_roman(romans)
+              @metals[new_word] = second_part_phrase.to_i / t
             end
           end
-          @metals[new_word] = second_part_phrase.to_i / t
+        elsif part_phrase[0].include? 'how many'
+          total_value = 0
+          words = second_part_phrase.sub!("?","").chomp.strip
+          words.split(" ").each do |word|
+            if @roman_numeral_converter.map.invert[word].nil? 
+              romans = second_part_phrase.sub!(word,"").split(" ")
+              t = @roman_numeral_converter.convert_roman(romans)
+              total_value = t * @metals[word] 
+            end
+          end
+          @output += "#{words} is #{total_value} Credits\n"
         elsif part_phrase[0].include? 'how much'
           words = second_part_phrase.sub!("?","").chomp.strip
           @output += "#{words} is #{@roman_numeral_converter.convert_roman(words.split(" "))}\n"
@@ -33,11 +47,8 @@ class MerchantConverter
         end
       end
     end
-    unless @output.empty?
-      @output
-    else
-      "I have no idea what you are talking about\n"
-    end
+    binding.pry
+    @output
   end
 
   def roman_number?(letter)

@@ -22,7 +22,11 @@ class RomanNumeralConverter
   def convert_roman(roman_numeral)
     total = 0
     last_value = 0
-
+    
+    unless roman_numeral.kind_of?(Array) 
+      roman_numeral = roman_numeral.split("")
+    end
+    
     roman_numeral.each do |r_numeral|
       value = @map.invert[r_numeral]
       if value > 0
