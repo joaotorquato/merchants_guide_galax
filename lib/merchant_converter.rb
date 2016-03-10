@@ -25,7 +25,7 @@ class MerchantConverter
               new_word = word
               romans = part_phrase[0].sub!(word,"").split(" ")
               t = @roman_numeral_converter.convert_roman(romans)
-              @metals[new_word] = second_part_phrase.to_i / t
+              @metals[new_word] = second_part_phrase.to_f / t
             end
           end
         elsif part_phrase[0].include? 'how many'
@@ -35,7 +35,7 @@ class MerchantConverter
             if @roman_numeral_converter.map.invert[word].nil? 
               romans = second_part_phrase.sub!(word,"").split(" ")
               t = @roman_numeral_converter.convert_roman(romans)
-              total_value = t * @metals[word] 
+              total_value = (t * @metals[word]).to_i 
             end
           end
           @output += "#{words} is #{total_value} Credits\n"
@@ -45,10 +45,11 @@ class MerchantConverter
         else
           @output += "I have no idea what you are talking about\n"
         end
+      else
+        @output += "I have no idea what you are talking about\n" if phrase.include?('much')
       end
     end
-    binding.pry
-    @output
+    @output.empty? ? "I have no idea what you are talking about\n" : @output
   end
 
   def roman_number?(letter)
