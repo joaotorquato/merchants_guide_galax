@@ -12,6 +12,7 @@ class MerchantConverter
 
   def map_metal(words, value)
     words.split(' ').each do |word|
+      # if not in the roman hash, is a metal
       next unless @roman_numeral_converter.map.invert[word].nil?
       romans = words.sub!(word, '').split(' ')
       t = @roman_numeral_converter.convert_roman(romans)

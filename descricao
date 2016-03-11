@@ -1,7 +1,19 @@
-Este exercício foi todo feito em TDD, utilizei 3 gems:
+Este exercício foi desenvolvido em TDD, foram utilizadas 3 gems:
 - RSpec para teste
 - pry e pry-byebug para debugar as linhas
 
-Utilizei duas classes para converter os dados, 
+-Duas classes foram feitas para converter os dados, 
 uma para tradução do algarismos romanos e outra
-para tradução dos dados informados.
+para tradução dos dados informados em um arquivo:
+-RomanNumeralConverter funciona para mapear as palavras
+do algarismo romano e calcular o valor de uma string no mapa de
+algarismos
+-MerchantConverter utiliza a RomanNumeralConverter para calcular
+os valores e a partir destes, montar o output
+-MerchantConverter também é responsável por mapear os valores de
+palavras que não são algoritmos romanos, como Iron, Silver...
+
+Comando para rodar o exercício:
+ruby lib/run.rb spec/support/test_final.txt
+
+O link do projeto no github: https://github.com/joaotorquato/merchants_guide_galax/
