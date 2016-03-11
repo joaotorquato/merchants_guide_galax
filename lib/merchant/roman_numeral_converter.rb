@@ -39,4 +39,8 @@ class RomanNumeralConverter
 
     total
   end
+
+  def self.roman_number?(letter)
+    %w(M D C L X V I).include? letter
+  end
 end

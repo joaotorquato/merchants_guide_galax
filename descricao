@@ -1,0 +1,7 @@
+Este exercício foi todo feito em TDD, utilizei 3 gems:
+- RSpec para teste
+- pry e pry-byebug para debugar as linhas
+
+Utilizei duas classes para converter os dados, 
+uma para tradução do algarismos romanos e outra
+para tradução dos dados informados.
