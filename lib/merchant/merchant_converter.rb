@@ -5,61 +5,70 @@ class MerchantConverter
     @metals = {}
   end
 
-  def map_word(word, value)
-    key = @roman_numeral_converter.map.invert[word]
-    @roman_numeral_converter.map[key] = value
-  end
-
-  def map_metal(words, value)
-    words.split(' ').each do |word|
-      # if not in the roman hash, is a metal
-      next unless @roman_numeral_converter.map.invert[word].nil?
-      romans = words.sub!(word, '').split(' ')
-      t = @roman_numeral_converter.convert_roman(romans)
-      @metals[word] = value.to_f / t
-    end
-  end
-
-  def calculate_value_with_metal(words)
-    total_value = 0
-    words.split(' ').each do |word|
-      next unless @roman_numeral_converter.map.invert[word].nil?
-      t = calculate_value(words.sub!(word, ''))
-      total_value = (t * @metals[word]).to_i
-    end
-    total_value
-  end
-
-  def calculate_value(words)
-    @roman_numeral_converter.convert_roman(words.split(' '))
-  end
-
   def convert(file_path)
     @file = File.open(file_path)
     text = @file.read.chomp.strip.split("\n")
     text.each do |phrase|
-      part_phrase = phrase.split(' is ')
-      if !part_phrase[1].nil?
-        second_part_phrase = part_phrase[1].strip
-        # atualiza o mapa de algorismos como os novos valores
-        if RomanNumeralConverter.roman_number? second_part_phrase
-          map_word(second_part_phrase, part_phrase[0].strip)
-        # calcula o valor dos itens não conhecidos
-        elsif second_part_phrase.include? 'Credits'
-          map_metal(part_phrase[0], second_part_phrase)
-        elsif part_phrase[0].include? 'how many'
-          words = second_part_phrase.sub!('?', '').chomp.strip
-          @output += "#{second_part_phrase.strip} is #{calculate_value_with_metal(words)} Credits\n"
-        elsif part_phrase[0].include? 'how much'
-          words = second_part_phrase.sub!('?', '').chomp.strip
-          @output += "#{words} is #{calculate_value(words)}\n"
-        else
-          @output += "I have no idea what you are talking about\n"
-        end
-      else
-        @output += "I have no idea what you are talking about\n" if phrase.include?('much')
+      analise_phrase(phrase)
+    end
+    @output
+  end
+
+  private
+
+  def analise_phrase(phrase)
+    part_phrase = phrase.split(' is ')
+    first_part_phrase = part_phrase[0].strip
+    second_part_phrase = part_phrase[1]
+    if !first_part_phrase.include? 'how'
+      define_vocabulary first_part_phrase, second_part_phrase
+    else
+      answer first_part_phrase, second_part_phrase
+    end
+  end
+
+  def define_vocabulary(first_part_phrase, second_part_phrase)
+    if RomanNumeralConverter.roman_number? second_part_phrase
+      map_words(second_part_phrase, first_part_phrase)
+    elsif second_part_phrase.include? 'Credits'
+      map_words(first_part_phrase, second_part_phrase.to_i)
+    end
+  end
+
+  def answer(first_part_phrase, second_part_phrase)
+    if second_part_phrase.nil?
+      @output += "I have no idea what you are talking about\n"
+    else
+      words = second_part_phrase.sub!('?', '').chomp.strip
+      if first_part_phrase.include? 'many'
+        @output += "#{words} is #{calculate_value(words)} Credits\n"
+      elsif first_part_phrase.include? 'much'
+        @output += "#{words} is #{calculate_value(words)}\n"
       end
     end
-    @output.empty? ? "I have no idea what you are talking about\n" : @output
+  end
+
+  def map_words(words, value)
+    array_words = words.split(' ')
+    if @roman_numeral_converter.map.invert[array_words.last].nil?
+      metal = array_words.pop
+      t = @roman_numeral_converter.convert_roman(array_words)
+      @metals[metal] = value.to_f / t
+    else
+      key = @roman_numeral_converter.map.invert[array_words.last]
+      @roman_numeral_converter.map[key] = value
+    end
+  end
+
+  def calculate_value(words)
+    array_words = words.split(' ')
+    if @roman_numeral_converter.map.invert[array_words.last].nil?
+      metal = array_words.pop
+      t = @roman_numeral_converter.convert_roman(array_words)
+      total_value = (t * @metals[metal]).to_i
+    else
+      total_value = @roman_numeral_converter.convert_roman(array_words)
+    end
+    total_value
   end
 end

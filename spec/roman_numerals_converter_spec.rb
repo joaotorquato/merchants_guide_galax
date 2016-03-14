@@ -99,19 +99,19 @@ RSpec.describe RomanNumeralConverter, '#convert' do
 
   context 'Roman Numeral to Decimal' do
     it 'calculates the decimal for I' do
-      expect(converter.convert_roman('I')).to eq 1
+      expect(converter.convert_roman('I'.split(''))).to eq 1
     end
     it 'calculates the decimal for IV' do
-      expect(converter.convert_roman('IV')).to eq 4
+      expect(converter.convert_roman('IV'.split(''))).to eq 4
     end
     it 'calculates the decimal for XXIV' do
-      expect(converter.convert_roman('XXIV')).to eq 24
+      expect(converter.convert_roman('XXIV'.split(''))).to eq 24
     end
     it 'calculates the decimal for MMMCM' do
-      expect(converter.convert_roman('MMMCM')).to eq 3900
+      expect(converter.convert_roman('MMMCM'.split(''))).to eq 3900
     end
     it 'calculates the decimal for XXXIX' do
-      expect(converter.convert_roman('XXXIX')).to eq 39
+      expect(converter.convert_roman('XXXIX'.split(''))).to eq 39
     end
   end
 end

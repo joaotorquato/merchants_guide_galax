@@ -22,21 +22,15 @@ class RomanNumeralConverter
   def convert_roman(roman_numeral)
     total = 0
     last_value = 0
-
-    roman_numeral = roman_numeral.split('') unless roman_numeral.is_a?(Array)
-
     roman_numeral.each do |r_numeral|
       value = @map.invert[r_numeral]
-      if value > 0
-        total += if last_value < value
-                   value - (2 * last_value)
-                 else
-                   value
-                 end
-      end
+      total += if last_value < value
+                 value - (2 * last_value)
+               else
+                 value
+               end
       last_value = value
     end
-
     total
   end
 
