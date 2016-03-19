@@ -2,7 +2,7 @@ require 'pry'
 
 Bundler.require(:test, :developement)
 
-require File.expand_path('../../lib/merchants_guide_galax', __FILE__)
+require File.expand_path('../../lib/merchants_guide_to_the_galaxy', __FILE__)
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
