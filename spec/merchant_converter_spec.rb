@@ -18,7 +18,7 @@ RSpec.describe MerchantConverter, '#converter' do
   end
   it 'should return full text' do
     merchant_converter = MerchantConverter.new
-    expect(merchant_converter.convert('spec/support/test_final.txt'))
+    expect(merchant_converter.convert('spec/support/final_test.txt'))
       .to eq "pish tegj glob glob is 42\n" \
       "glob prok Silver is 68 Credits\n" \
       "glob prok Gold is 57800 Credits\n" \

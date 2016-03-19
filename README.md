@@ -21,4 +21,4 @@ into the roman numerals
 
 To run this application:
 
-    $ ruby run.rb spec/support/final_test.txt
+    $ ruby solution.rb spec/support/final_test.txt
