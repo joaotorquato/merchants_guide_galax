@@ -4,7 +4,7 @@ class Metal
     @roman_numeral_converter = roman_numeral_converter
     metals.each do |metal|
       quantity = @roman_numeral_converter
-                 .convert_roman(metal[:quantity].split(' '))
+                 .roman_to_decimal(metal[:quantity])
       @metals[metal[:metal]] = metal[:total_price].to_f / quantity
     end
   end
@@ -12,7 +12,7 @@ class Metal
   def calculate(words)
     array_words = words.split(' ')
     metal = array_words.pop
-    t = @roman_numeral_converter.convert_roman(array_words)
+    t = @roman_numeral_converter.roman_to_decimal(array_words.join(' '))
     (t * (@metals[metal] || 0)).to_i
   end
 end

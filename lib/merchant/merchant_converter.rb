@@ -14,9 +14,7 @@ class MerchantConverter
       convert_phrase(phrase_analyser)
     end
 
-    @roman_numeral_converter = RomanNumeralConverter.new
-    @roman_numeral_converter
-      .map_words_into_roman_hash(@words_to_roman)
+    @roman_numeral_converter = RomanNumeralConverter.new(@words_to_roman)
     @metal = Metal.new(@metals, @roman_numeral_converter)
     answer
   end
@@ -73,6 +71,6 @@ class MerchantConverter
   end
 
   def convert_to_roman(words)
-    @roman_numeral_converter.convert_roman(words.split(' '))
+    @roman_numeral_converter.roman_to_decimal(words)
   end
 end

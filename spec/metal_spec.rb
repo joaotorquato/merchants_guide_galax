@@ -3,8 +3,7 @@ require 'spec_helper'
 RSpec.describe Metal, '#convert' do
   context 'should return the total price of the metal' do
     it 'should return the total of 68.00' do
-      roman_converter = RomanNumeralConverter.new
-      roman_converter.map_words_into_roman_hash(glob: 'I', prok: 'V')
+      roman_converter = RomanNumeralConverter.new(glob: 'I', prok: 'V')
       metal = Metal.new([{ quantity: 'glob glob',
                            metal: 'Silver',
                            total_price: 34 }],
@@ -13,8 +12,7 @@ RSpec.describe Metal, '#convert' do
     end
 
     it 'should return the total of 68.00' do
-      roman_converter = RomanNumeralConverter.new
-      roman_converter.map_words_into_roman_hash(glob: 'I', prok: 'V')
+      roman_converter = RomanNumeralConverter.new(glob: 'I', prok: 'V')
       metal = Metal.new([{ quantity: 'glob glob',
                            metal: 'Silver',
                            total_price: 34 },

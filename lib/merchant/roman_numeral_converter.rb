@@ -1,22 +1,18 @@
 class RomanNumeralConverter
-  attr_accessor :map
+  def initialize(new_romans_numerals = {})
+    @dictionary = { 1000 => 'M', 900 => 'CM', 500 => 'D', 400 => 'CD',
+                    100 => 'C', 90 => 'XC', 50 => 'L', 40 => 'XL',
+                    10 => 'X', 9 => 'IX', 5 => 'V', 4 => 'IV', 1 => 'I' }
 
-  def initialize
-    @map = { 1000 => 'M', 900 => 'CM', 500 => 'D', 400 => 'CD',
-             100 => 'C', 90 => 'XC', 50 => 'L', 40 => 'XL',
-             10 => 'X', 9 => 'IX', 5 => 'V', 4 => 'IV', 1 => 'I' }
+    update_dictionary(new_romans_numerals)
   end
 
-  def convert_roman(roman_numeral)
+  def roman_to_decimal(roman_numeral)
     total = 0
     last_value = 0
-    roman_numeral.each do |r_numeral|
-      value = @map.invert[r_numeral] || 0
-      total += if last_value < value
-                 value - (2 * last_value)
-               else
-                 value
-               end
+    split_numeral(roman_numeral).each do |r_numeral|
+      value = @dictionary.invert[r_numeral] || 0
+      total += check_roman_value(last_value, value)
       last_value = value
     end
     total
@@ -26,10 +22,28 @@ class RomanNumeralConverter
     %w(M D C L X V I).include? letter
   end
 
-  def map_words_into_roman_hash(hash_words)
-    hash_words.each do |word, value|
-      key = @map.invert[value]
-      @map[key] = word.to_s
+  private
+
+  def update_dictionary(new_romans_numerals)
+    new_romans_numerals.each do |new_sign, value|
+      key = @dictionary.invert[value]
+      @dictionary[key] = new_sign.to_s
+    end
+  end
+
+  def split_numeral(numeral)
+    if numeral == numeral.upcase
+      numeral.split('')
+    else
+      numeral.split(' ')
+    end
+  end
+
+  def check_roman_value(last_value, value)
+    if last_value < value
+      value - (2 * last_value)
+    else
+      value
     end
   end
 end
